@@ -9,8 +9,8 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
 COPY ["CadmusBdmApi/CadmusBdmApi.csproj", "CadmusBdmApi/"]
 # copy local packages to avoid using a NuGet custom feed, then restore
-COPY ./local-packages /src/local-packages
-RUN dotnet restore "CadmusBdmApi/CadmusBdmApi.csproj" -s /src/local-packages -s https://api.nuget.org/v3/index.json --verbosity n
+# COPY ./local-packages /src/local-packages
+RUN dotnet restore "CadmusBdmApi/CadmusBdmApi.csproj" -s https://api.nuget.org/v3/index.json --verbosity n
 # copy the content of the API project
 COPY . .
 # build it
