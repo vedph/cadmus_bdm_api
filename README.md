@@ -3,8 +3,8 @@
 Quick Docker image build:
 
 ```bash
-docker build . -t vedph2020/cadmus_bdm_api:1.0.6 -t vedph2020/cadmus_bdm_api:latest
-docker push vedph2020/cadmus_bdm_api:1.0.6
+docker build . -t vedph2020/cadmus_bdm_api:1.0.7 -t vedph2020/cadmus_bdm_api:latest
+docker push vedph2020/cadmus_bdm_api:1.0.7
 ```
 
 (replace with the current version).
