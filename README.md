@@ -13,6 +13,10 @@ This is a Cadmus API layer customized for the Buondelmonti project. Most of its 
 
 ## History
 
+- 2022-04-11: upgraded packages.
+
+### 3.0.0
+
 - 2021-12-21: upgraded packages.
 - 2021-12-07 (v 3.0.0): upgraded to refactored Cadmus API components.
 - 2021-11-11 (v 2.0.0): upgraded to NET 6.
