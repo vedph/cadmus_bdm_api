@@ -1,9 +1,9 @@
 ﻿{
   "facets": [
     {
-      "id": "default",
-      "label": "default",
-      "description": "The default facet",
+      "id": "text",
+      "label": "text",
+      "description": "The text facet",
       "colorKey": "86ACEB",
       "partDefinitions": [
         {
@@ -89,6 +89,12 @@
       "label": "revised",
       "description": "The item is revised.",
       "colorKey": "49D697"
+    },
+    {
+      "id": 8,
+      "label": "translation",
+      "description": "The item contains a translation.",
+      "colorKey": "9e49d6"
     }
   ],
   "index": {

@@ -6,7 +6,6 @@ using MessagingApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,6 +29,8 @@ using Cadmus.Api.Services;
 using System.Linq;
 using Microsoft.AspNetCore.HttpOverrides;
 using CadmusBdmApi.Services;
+using Cadmus.Core.Storage;
+using Cadmus.Export.Preview;
 
 namespace CadmusBdmApi
 {
@@ -124,7 +125,7 @@ namespace CadmusBdmApi
                     IConfigurationSection jwtSection = Configuration.GetSection("Jwt");
                     string key = jwtSection["SecureKey"];
                     if (string.IsNullOrEmpty(key))
-                        throw new ApplicationException("Required JWT SecureKey not found");
+                        throw new InvalidOperationException("Required JWT SecureKey not found");
 
                     options.SaveToken = true;
                     options.RequireHttpsMetadata = false;
@@ -143,7 +144,7 @@ namespace CadmusBdmApi
 #endif
         }
 
-        private void ConfigureSwaggerServices(IServiceCollection services)
+        private static void ConfigureSwaggerServices(IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
             {
@@ -188,6 +189,49 @@ namespace CadmusBdmApi
             });
         }
 
+        private CadmusPreviewer GetPreviewer(IServiceProvider provider)
+        {
+            // get dependencies
+            ICadmusRepository repository =
+                    provider.GetService<IRepositoryProvider>().CreateRepository();
+            ICadmusPreviewFactoryProvider factoryProvider =
+                new StandardCadmusPreviewFactoryProvider();
+
+            // nope if disabled
+            if (!Configuration.GetSection("Preview").GetSection("IsEnabled")
+                .Get<bool>())
+            {
+                return new CadmusPreviewer(repository,
+                    factoryProvider.GetFactory("{}"));
+            }
+
+            // get profile source
+            ILogger logger = provider.GetService<ILogger>();
+            IHostEnvironment env = provider.GetService<IHostEnvironment>();
+            string path = Path.Combine(env.ContentRootPath,
+                "wwwroot", "preview-profile.json");
+            if (!File.Exists(path))
+            {
+                Console.WriteLine($"Preview profile expected at {path} not found");
+                logger.Error($"Preview profile expected at {path} not found");
+                return new CadmusPreviewer(repository,
+                    factoryProvider.GetFactory("{}"));
+            }
+
+            // load profile
+            Console.WriteLine($"Loading preview profile from {path}...");
+            logger.Information($"Loading preview profile from {path}...");
+            string profile;
+            using (StreamReader reader = new(new FileStream(
+                path, FileMode.Open, FileAccess.Read, FileShare.Read), Encoding.UTF8))
+            {
+                profile = reader.ReadToEnd();
+            }
+            CadmusPreviewFactory factory = factoryProvider.GetFactory(profile);
+
+            return new CadmusPreviewer(repository, factory);
+        }
+
         /// <summary>
         /// Configures the services.
         /// </summary>
@@ -212,7 +256,6 @@ namespace CadmusBdmApi
                     options.JsonSerializerOptions.PropertyNamingPolicy =
                         JsonNamingPolicy.CamelCase;
                 });
-                //.SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             // authentication
             ConfigureAuthServices(services);
@@ -250,6 +293,8 @@ namespace CadmusBdmApi
             services.AddSingleton<IItemIndexFactoryProvider>(_ =>
                 new StandardItemIndexFactoryProvider(
                     indexCS));
+            // previewer
+            services.AddSingleton(p => GetPreviewer(p));
 
             // swagger
             ConfigureSwaggerServices(services);
@@ -305,7 +350,6 @@ namespace CadmusBdmApi
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                //options.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
                 string url = Configuration.GetValue<string>("Swagger:Endpoint");
                 if (string.IsNullOrEmpty(url)) url = "v1/swagger.json";
                 options.SwaggerEndpoint(url, "V1 Docs");
