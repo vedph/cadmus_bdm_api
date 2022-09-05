@@ -163,6 +163,14 @@
       "id": "categories@en",
       "entries": [
         {
+          "id": "arch",
+          "value": "archaeology"
+        },
+        {
+          "id": "bot",
+          "value": "botanics"
+        },
+        {
           "id": "etym",
           "value": "etymology"
         },
@@ -187,12 +195,28 @@
           "value": "history: general"
         },
         {
+          "id": "mon",
+          "value": "monuments"
+        },
+        {
+          "id": "mon.-",
+          "value": "monuments: general"
+        },
+        {
           "id": "myth",
           "value": "mythology"
         },
         {
           "id": "myth.-",
           "value": "mythology: general"
+        },
+        {
+          "id": "sett",
+          "value": "settlements"
+        },
+        {
+          "id": "text",
+          "value": "text"
         }
       ]
     },
