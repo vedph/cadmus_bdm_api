@@ -4,7 +4,7 @@ using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using Cadmus.Mongo;
-using Cadmus.Parts.General;
+using Cadmus.General.Parts;
 using Cadmus.Philology.Parts;
 using Microsoft.Extensions.Configuration;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
@@ -29,10 +29,10 @@ namespace CadmusBdmApi.Services
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
 
-            TagAttributeToTypeMap map = new TagAttributeToTypeMap();
+            TagAttributeToTypeMap map = new();
             map.Add(new[]
             {
-                // Cadmus.Parts
+                // Cadmus.Seed.General.Parts
                 typeof(NotePart).GetTypeInfo().Assembly,
                 // Cadmus.Philology.Parts
                 typeof(ApparatusLayerFragment).GetTypeInfo().Assembly
@@ -58,7 +58,7 @@ namespace CadmusBdmApi.Services
         {
             // create the repository (no need to use container here)
             MongoCadmusRepository repository =
-                new MongoCadmusRepository(
+                new(
                     _partTypeProvider,
                     new StandardItemSortKeyBuilder());
 

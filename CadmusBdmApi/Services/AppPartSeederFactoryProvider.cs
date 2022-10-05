@@ -1,6 +1,6 @@
 ﻿using Cadmus.Core.Config;
 using Cadmus.Seed;
-using Cadmus.Seed.Parts.General;
+using Cadmus.Seed.General.Parts;
 using Cadmus.Seed.Philology.Parts;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
 using Microsoft.Extensions.Configuration;
@@ -29,16 +29,16 @@ namespace CadmusBdmApi.Services
             // build the tags to types map for parts/fragments
             Assembly[] seedAssemblies = new[]
             {
-                // Cadmus.Seed.Parts
+                // Cadmus.Seed.General.Parts
                 typeof(NotePartSeeder).Assembly,
                 // Cadmus.Seed.Philology.Parts
                 typeof(ApparatusLayerFragmentSeeder).Assembly
             };
-            TagAttributeToTypeMap map = new TagAttributeToTypeMap();
+            TagAttributeToTypeMap map = new();
             map.Add(seedAssemblies);
 
             // build the container for seeders
-            Container container = new Container();
+            Container container = new();
             PartSeederFactory.ConfigureServices(
                 container,
                 new StandardPartTypeProvider(map),
