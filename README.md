@@ -13,6 +13,7 @@ This is a Cadmus API layer customized for the Buondelmonti project. Most of its 
 
 ## History
 
+- 2022-10-10: updated packages and injection in `Startup.cs` for new `IRepositoryProvider`.
 - 2022-10-05:
   - updated packages and fixed references to legacy parts.
   - enabled preview.
