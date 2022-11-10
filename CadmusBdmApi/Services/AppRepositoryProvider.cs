@@ -27,6 +27,7 @@ namespace CadmusBdmApi.Services
         /// <exception cref="ArgumentNullException">configuration</exception>
         public AppRepositoryProvider()
         {
+            ConnectionString = "";
             TagAttributeToTypeMap map = new();
             map.Add(new[]
             {
