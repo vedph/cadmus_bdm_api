@@ -57,9 +57,7 @@ public sealed class AppRepositoryProvider : IRepositoryProvider
     {
         // create the repository (no need to use container here)
         MongoCadmusRepository repository =
-            new(
-                _partTypeProvider,
-                new StandardItemSortKeyBuilder());
+            new(_partTypeProvider, new StandardItemSortKeyBuilder());
 
         repository.Configure(new MongoCadmusRepositoryOptions
         {

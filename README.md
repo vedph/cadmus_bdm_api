@@ -13,6 +13,7 @@ This is a Cadmus API layer customized for the Buondelmonti project. Most of its 
 
 ## History
 
+- 2023-06-02: updated packages.
 - 2023-05-16: updated packages.
 - 2023-05-10: updated packages.
 
