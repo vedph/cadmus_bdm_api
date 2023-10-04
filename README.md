@@ -3,8 +3,8 @@
 Quick Docker image build:
 
 ```bash
-docker build . -t vedph2020/cadmus_bdm_api:4.0.0 -t vedph2020/cadmus_bdm_api:latest
-docker push vedph2020/cadmus_bdm_api:4.0.0
+docker build . -t vedph2020/cadmus-bdm-api:5.0.0 -t vedph2020/cadmus-bdm-api:latest
+docker push vedph2020/cadmus-bdm-api:5.0.0
 ```
 
 (replace with the current version).
@@ -13,6 +13,11 @@ This is a Cadmus API layer customized for the Buondelmonti project. Most of its 
 
 ## History
 
+### 5.0.0
+
+- 2023-10-04:
+  - updated packages and added import controllers.
+  - moved to PostgreSQL.
 - 2023-06-02: updated packages.
 - 2023-05-16: updated packages.
 - 2023-05-10: updated packages.
