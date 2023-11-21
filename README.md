@@ -1,4 +1,4 @@
-# Cadmus Buondelmonti API
+﻿# Cadmus Buondelmonti API
 
 Quick Docker image build:
 
@@ -12,6 +12,8 @@ docker push vedph2020/cadmus-bdm-api:5.0.0
 This is a Cadmus API layer customized for the Buondelmonti project. Most of its code is derived from shared Cadmus libraries. See the [documentation](https://github.com/vedph/cadmus_doc/blob/master/api/creating.md) for more.
 
 ## History
+
+- 2023-11-21: ⚠️ upgraded to NET 8.
 
 ### 5.0.0
 
